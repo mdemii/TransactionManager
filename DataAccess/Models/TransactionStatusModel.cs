@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DataAccess.Models
+﻿namespace DataAccess.Models
 {
-    public enum TransactionStatusModel
+    public class TransactionStatusModel
     {
-        Approved,
-        Rejected,
-        Done,
+        public sbyte Id { get; set; }
+
+        public string Name { get; set; }
+
+        public string ShortName { get; set; }
     }
 }

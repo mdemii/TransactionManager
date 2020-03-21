@@ -1,12 +1,11 @@
-﻿using Business;
-using Business.Interfaces;
+﻿using Business.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace TransactionWebApi.Controllers
 {
     [ApiController]
-    [Route("api/authors")]
+    [Route("api/transactions")]
     public class TransactionsController : ControllerBase
     {
         private ITransactionManager m_transactionManager;

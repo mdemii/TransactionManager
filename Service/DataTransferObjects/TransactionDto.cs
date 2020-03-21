@@ -4,15 +4,12 @@ using System.Text;
 
 namespace Service.DataTransferObjects
 {
-    namespace Service.DataTransferObjects
+    public class TransactionDto
     {
-        public class TransactionDto
-        {
-            public string id { get; set; }
+        public string Id { get; set; }
 
-            public string payment { get; set; }
+        public string Payment { get; set; }
 
-            public string Status { get; set; }
-        }
+        public string Status { get; set; }
     }
 }
