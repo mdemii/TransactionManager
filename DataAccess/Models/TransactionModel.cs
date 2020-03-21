@@ -1,4 +1,6 @@
-﻿namespace DataAccess.Models
+﻿using System;
+
+namespace DataAccess.Models
 {
     public class TransactionModel
     {
@@ -14,8 +16,8 @@
         /// <summary>
         /// Transaction Date - should be in the "dd/MM/yyyy hh:mm:ss" format 
         /// </summary>
-        public string TransactionDate { get; set; }
+        public DateTime TransactionDate { get; set; }
 
-        public TransactionStatusModel Status {get; set;}
+        public sbyte StatusId {get; set;}
     }
 }
