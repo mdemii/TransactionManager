@@ -22,7 +22,7 @@ namespace Business.Managers
             {
                 new TransactionModel
                 {
-                    TransactionId="Invoice0000001",
+                    Id="Invoice0000001",
                     Amount=1000.00m,
                     Currency = new CurrencyModel
                     {
@@ -42,7 +42,7 @@ namespace Business.Managers
 
                 new TransactionModel
                 {
-                    TransactionId="Invoice0000002",
+                    Id="Invoice0000002",
                     Amount=300.00m,
                     Currency = new CurrencyModel
                     {
@@ -62,7 +62,7 @@ namespace Business.Managers
 
                 new TransactionModel
                 {
-                    TransactionId="Invoice0000003",
+                    Id="Invoice0000003",
                     Amount=700.00m,
                     Currency = new CurrencyModel
                     {
@@ -82,7 +82,7 @@ namespace Business.Managers
 
                 new TransactionModel
                 {
-                    TransactionId="Invoice0000004",
+                    Id="Invoice0000004",
                     Amount=900.00m,
                     Currency = new CurrencyModel
                     {

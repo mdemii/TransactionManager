@@ -7,7 +7,7 @@ namespace DataAccess.Models
         /// <summary>
         /// Transaction Identificator
         /// </summary>
-        public string TransactionId { get; set; }
+        public string Id { get; set; }
 
         public decimal Amount { get; set; }
 

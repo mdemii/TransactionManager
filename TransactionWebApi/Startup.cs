@@ -1,3 +1,4 @@
+using AutoMapper;
 using Business.Interfaces;
 using Business.Managers;
 using Microsoft.AspNetCore.Builder;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace TransactionWebApi
 {
@@ -22,6 +24,8 @@ namespace TransactionWebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddScoped<ITransactionStatusManager, TransactionStatusManager>();
             services.AddScoped<ITransactionManager, TransactionManager>();

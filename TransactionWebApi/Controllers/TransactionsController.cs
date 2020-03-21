@@ -1,5 +1,8 @@
-﻿using Business.Interfaces;
+﻿using AutoMapper;
+using Business.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Service.DataTransferObjects;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace TransactionWebApi.Controllers
@@ -8,10 +11,12 @@ namespace TransactionWebApi.Controllers
     [Route("api/transactions")]
     public class TransactionsController : ControllerBase
     {
+        private readonly IMapper m_mapper;
         private ITransactionManager m_transactionManager;
 
-        public TransactionsController(ITransactionManager transactionManager)
+        public TransactionsController(ITransactionManager transactionManager, IMapper mapper)
         {
+            m_mapper = mapper;
             m_transactionManager = transactionManager;
         }
 
@@ -19,9 +24,8 @@ namespace TransactionWebApi.Controllers
         public async Task<IActionResult> GetTransactions()
         {
             var businessTransactions = await m_transactionManager.GetAllAsync();
-
-            //TODO: mapping businessTransactions to data transfer objects
-            return Ok(businessTransactions);
+            var dtoTransactions = m_mapper.Map<IEnumerable<TransactionDto>>(businessTransactions);
+            return Ok(dtoTransactions);
         }
     }
 }
