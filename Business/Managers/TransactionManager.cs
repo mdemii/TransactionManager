@@ -26,6 +26,33 @@ namespace Business.Managers
                     TransactionDate = Convert.ToDateTime("20/02/2019 12:33:16"),
                     StatusId = 0,
                 },
+
+                new TransactionModel
+                {
+                    TransactionId="Invoice0000002",
+                    Amount=300.00m,
+                    CurrencyCode = "USD",
+                    TransactionDate = Convert.ToDateTime("21/02/2019 12:33:16"),
+                    StatusId = 0,
+                },
+
+                new TransactionModel
+                {
+                    TransactionId="Invoice0000003",
+                    Amount=700.00m,
+                    CurrencyCode = "USD",
+                    TransactionDate = Convert.ToDateTime("22/02/2019 12:33:16"),
+                    StatusId = 0,
+                },
+
+                new TransactionModel
+                {
+                    TransactionId="Invoice0000004",
+                    Amount=900.00m,
+                    CurrencyCode = "USD",
+                    TransactionDate = Convert.ToDateTime("23/02/2019 12:33:16"),
+                    StatusId = 0,
+                },
             };
 
             return Task<IEnumerable<TransactionModel>>.Factory.StartNew(() => statusList);
