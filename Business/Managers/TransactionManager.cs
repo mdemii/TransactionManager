@@ -11,6 +11,8 @@ namespace Business.Managers
         public TransactionManager()
         {
 
+
+
         }
 
         public Task<IEnumerable<TransactionModel>> GetAllAsync()
@@ -22,36 +24,80 @@ namespace Business.Managers
                 {
                     TransactionId="Invoice0000001",
                     Amount=1000.00m,
-                    CurrencyCode = "USD",
+                    Currency = new CurrencyModel
+                    {
+                        Id = 1,
+                        Code = "USD",
+                        Name = "United States Dollar",
+                        Symbol = "$",
+                    },
                     TransactionDate = Convert.ToDateTime("20/02/2019 12:33:16"),
-                    StatusId = 0,
+                    Status = new TransactionStatusModel
+                    {
+                        Id = 1,
+                        Name = "Approved",
+                        ShortName = "A",
+                    },
                 },
 
                 new TransactionModel
                 {
                     TransactionId="Invoice0000002",
                     Amount=300.00m,
-                    CurrencyCode = "USD",
+                    Currency = new CurrencyModel
+                    {
+                        Id = 1,
+                        Code = "USD",
+                        Name = "United States Dollar",
+                        Symbol = "$",
+                    },
                     TransactionDate = Convert.ToDateTime("21/02/2019 12:33:16"),
-                    StatusId = 0,
+                    Status = new TransactionStatusModel
+                    {
+                        Id = 3,
+                        Name = "Done",
+                        ShortName = "D",
+                    },
                 },
 
                 new TransactionModel
                 {
                     TransactionId="Invoice0000003",
                     Amount=700.00m,
-                    CurrencyCode = "USD",
+                    Currency = new CurrencyModel
+                    {
+                        Id = 1,
+                        Code = "USD",
+                        Name = "United States Dollar",
+                        Symbol = "$",
+                    },
                     TransactionDate = Convert.ToDateTime("22/02/2019 12:33:16"),
-                    StatusId = 0,
+                    Status = new TransactionStatusModel
+                    {
+                        Id = 2,
+                        Name = "Rejected",
+                        ShortName = "R",
+                    },
                 },
 
                 new TransactionModel
                 {
                     TransactionId="Invoice0000004",
                     Amount=900.00m,
-                    CurrencyCode = "USD",
+                    Currency = new CurrencyModel
+                    {
+                        Id = 1,
+                        Code = "USD",
+                        Name = "United States Dollar",
+                        Symbol = "$",
+                    },
                     TransactionDate = Convert.ToDateTime("23/02/2019 12:33:16"),
-                    StatusId = 0,
+                    Status = new TransactionStatusModel
+                    {
+                        Id = 1,
+                        Name = "Approved",
+                        ShortName = "A",
+                    },
                 },
             };
 
