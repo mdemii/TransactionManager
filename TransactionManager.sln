@@ -5,11 +5,13 @@ VisualStudioVersion = 16.0.29911.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransactionWebApi", "TransactionWebApi\TransactionWebApi.csproj", "{48909AB7-C20B-463D-BAB3-3BA06F0F0B56}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "Business\Business.csproj", "{049161AD-F87E-4EB4-AF32-CDD1279ABBFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Business.csproj", "{049161AD-F87E-4EB4-AF32-CDD1279ABBFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{AFC67781-6699-4C94-AC66-682E4838ACA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{AFC67781-6699-4C94-AC66-682E4838ACA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{ED701B36-6FD7-4489-94FC-8D381F0A36CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Service\Service.csproj", "{ED701B36-6FD7-4489-94FC-8D381F0A36CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess.EFCore", "DataAccess.EFCore\DataAccess.EFCore.csproj", "{D1C000E4-3DA1-4A58-BAFF-B851F5B51A5A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{ED701B36-6FD7-4489-94FC-8D381F0A36CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED701B36-6FD7-4489-94FC-8D381F0A36CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED701B36-6FD7-4489-94FC-8D381F0A36CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1C000E4-3DA1-4A58-BAFF-B851F5B51A5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1C000E4-3DA1-4A58-BAFF-B851F5B51A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1C000E4-3DA1-4A58-BAFF-B851F5B51A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1C000E4-3DA1-4A58-BAFF-B851F5B51A5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

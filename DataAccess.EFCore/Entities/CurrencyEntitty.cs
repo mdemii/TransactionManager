@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DataAccess.Models
+namespace DataAccess.EFCore.Entities
 {
-    public class CurrencyModel
+    public class CurrencyEntitty
     {
-        public sbyte Id { get; set; }
+        public sbyte CurrencyId { get; set; }
 
         /// <summary>
         /// Example: United States Dollar
