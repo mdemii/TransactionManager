@@ -6,7 +6,7 @@ namespace DataAccess.EFCore.Entities
 {
     public class TransactionStatusEntity
     {
-        public sbyte TransactionStatusId { get; set; }
+        public sbyte Id { get; set; }
 
         public string Name { get; set; }
 

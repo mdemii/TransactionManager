@@ -6,7 +6,7 @@ namespace DataAccess.EFCore.Entities
 {
     public class CurrencyEntity
     {
-        public sbyte CurrencyId { get; set; }
+        public sbyte Id { get; set; }
 
         /// <summary>
         /// Example: United States Dollar

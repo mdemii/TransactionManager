@@ -9,7 +9,7 @@ namespace DataAccess.EFCore.Entities
         /// <summary>
         /// Transaction Identificator
         /// </summary>
-        public string TransactionId { get; set; }
+        public string Id { get; set; }
 
         public sbyte CurrencyId { get; set; }
 
