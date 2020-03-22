@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Business\Business.csproj" />
+    <ProjectReference Include="..\DataAccess.EFCore\DataAccess.EFCore.csproj" />
     <ProjectReference Include="..\Service\Service.csproj" />
   </ItemGroup>
 

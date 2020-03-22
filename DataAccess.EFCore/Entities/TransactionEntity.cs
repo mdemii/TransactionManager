@@ -13,7 +13,7 @@ namespace DataAccess.EFCore.Entities
 
         public sbyte CurrencyId { get; set; }
 
-        public CurrencyEntitty Currency { get; set; }
+        public CurrencyEntity Currency { get; set; }
 
         public sbyte TransactionStatusId { get; set; }
         

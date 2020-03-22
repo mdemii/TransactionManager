@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DataAccess.EFCore.Entities
 {
-    public class CurrencyEntitty
+    public class CurrencyEntity
     {
         public sbyte CurrencyId { get; set; }
 

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Transactions;
+﻿using DataAccess.Models;
 
 namespace DataAccess
 {
-    public interface ITransactionRepository : IRepository<Transaction, string>
+    public interface ITransactionRepository : IRepository<TransactionModel, string>
     {
     }
 }
