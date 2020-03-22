@@ -1,4 +1,6 @@
-﻿using DataAccess.Models;
+﻿using AutoMapper;
+using DataAccess.EFCore.DbContexts;
+using DataAccess.Models;
 using DataAccess.Parameters;
 using DataAccess.Repositories;
 using System;
@@ -9,6 +11,15 @@ namespace DataAccess.EFCore.Repositories
 {
     public class TransactionStatusRepository : ITransactionStatusRepository
     {
+        private readonly IMapper m_mapper;
+        private TransactionDbContext m_dbContext;
+
+        public TransactionStatusRepository(TransactionDbContext dbContext, IMapper mapper)
+        {
+            m_mapper = mapper;
+            m_dbContext = dbContext;
+        }
+
         public void Create(TransactionStatusModel item)
         {
             throw new NotImplementedException();
@@ -26,29 +37,9 @@ namespace DataAccess.EFCore.Repositories
 
         public Task<IEnumerable<TransactionStatusModel>> GetAllAsync(ParametersBase parameters = null)
         {
-            var statusList = new List<TransactionStatusModel>()
-            {
-                new TransactionStatusModel
-                {
-                    Id=1,
-                    Name="Approved",
-                    ShortName="A",
-                },
-                new TransactionStatusModel
-                {
-                    Id=2,
-                    Name="Rejected",
-                    ShortName="R",
-                },
-                new TransactionStatusModel
-                {
-                    Id=3,
-                    Name="Done",
-                    ShortName="D",
-                },
-            };
-
-            return Task<IEnumerable<TransactionStatusModel>>.Factory.StartNew(() => statusList);
+            var statusEntities = m_dbContext.TransactionStatuses.AsQueryable();
+            var statusModels = m_mapper.Map<IEnumerable<TransactionStatusModel>>(statusEntities);
+            return Task<IEnumerable<TransactionStatusModel>>.Factory.StartNew(() => statusModels);
         }
 
         public void Update(TransactionStatusModel item)
