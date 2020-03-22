@@ -10,16 +10,16 @@ namespace Business.Managers
 {
     public class TransactionManager : ITransactionManager
     {
-        ITransactionRepository m_transactionRepository;
+        ITransactionRepository m_repository;
 
-        public TransactionManager(ITransactionRepository transactionRepository)
+        public TransactionManager(ITransactionRepository repository)
         {
-            m_transactionRepository = transactionRepository;
+            m_repository = repository;
         }
 
         public async Task<IEnumerable<TransactionModel>> GetAllAsync(ParametersBase parameters)
         {
-            var transactions = await m_transactionRepository.GetAllAsync(parameters);
+            var transactions = await m_repository.GetAllAsync(parameters);
             return transactions;
         }
 

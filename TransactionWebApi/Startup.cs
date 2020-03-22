@@ -34,9 +34,11 @@ namespace TransactionWebApi
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+            services.AddScoped<ICurrencyRepository, CurrencyRepository>();
             services.AddScoped<ITransactionStatusRepository, TransactionStatusRepository>();
             services.AddScoped<ITransactionRepository, TransactionRepository>();
 
+            services.AddScoped<ICurrencyManager, CurrencyManager>();
             services.AddScoped<ITransactionStatusManager, TransactionStatusManager>();
             services.AddScoped<ITransactionManager, TransactionManager>();
         }

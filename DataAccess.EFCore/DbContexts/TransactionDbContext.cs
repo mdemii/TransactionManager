@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Text;
 
 namespace DataAccess.EFCore.DbContexts
@@ -21,7 +23,33 @@ namespace DataAccess.EFCore.DbContexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<CurrencyEntity>( entity =>
+            Configure_Currencies_Table(modelBuilder);
+
+            Configure_TransactionStatuses_Table(modelBuilder);
+
+            Configure_Transactions_Table(modelBuilder);
+
+            base.OnModelCreating(modelBuilder);
+        }
+
+        private void Configure_Currencies_Table(ModelBuilder modelBuilder)
+        {
+            var currencyEntityList = CultureInfo.GetCultures(CultureTypes.SpecificCultures)
+                .Select(ci => ci.LCID).Distinct()
+                .Select(id => new RegionInfo(id))
+                .GroupBy(r => r.ISOCurrencySymbol)
+                .Select(g => g.First())
+                .Select((regionInfo, index) =>
+                    new CurrencyEntity
+                    {
+                        Id = (sbyte)(index + 1),
+                        Name = regionInfo.EnglishName,
+                        Code = regionInfo.ISOCurrencySymbol,
+                        Symbol = regionInfo.CurrencySymbol
+                    })
+                .ToList();
+
+            modelBuilder.Entity<CurrencyEntity>(entity =>
             {
                 entity.ToTable("Currencies");
                 entity.HasKey(e => e.Id);
@@ -42,10 +70,13 @@ namespace DataAccess.EFCore.DbContexts
                     .IsRequired()
                     .HasMaxLength(50);
 
-                //TODO has data
+                entity.HasData(currencyEntityList);
 
             });
+        }
 
+        private void Configure_TransactionStatuses_Table(ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<TransactionStatusEntity>(entity =>
             {
                 entity.ToTable("TransactionStatuses");
@@ -87,7 +118,10 @@ namespace DataAccess.EFCore.DbContexts
                         }
                     );
             });
+        }
 
+        private void Configure_Transactions_Table(ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<TransactionEntity>(entity =>
             {
                 entity.ToTable("Transactions");
@@ -114,8 +148,6 @@ namespace DataAccess.EFCore.DbContexts
                 //TODO has data
 
             });
-
-            base.OnModelCreating(modelBuilder);
         }
     }
 }

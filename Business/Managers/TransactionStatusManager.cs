@@ -10,16 +10,16 @@ namespace Business.Managers
     public class TransactionStatusManager : ITransactionStatusManager
     {
 
-        ITransactionStatusRepository m_statusRepository;
+        ITransactionStatusRepository m_repository;
 
-        public TransactionStatusManager(ITransactionStatusRepository transactionStatusRepository)
+        public TransactionStatusManager(ITransactionStatusRepository repository)
         {
-            m_statusRepository = transactionStatusRepository;
+            m_repository = repository;
         }
 
         public async Task<IEnumerable<TransactionStatusModel>> GetAllAsync(ParametersBase parameters = null)
         {
-            var transactionStatuses = await m_statusRepository.GetAllAsync(parameters);
+            var transactionStatuses = await m_repository.GetAllAsync(parameters);
             return transactionStatuses;
         }
     }
