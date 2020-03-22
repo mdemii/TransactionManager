@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DataAccess.Parameters;
+using System.Collections.Generic;
 
 namespace DataAccess
 {
@@ -6,7 +7,7 @@ namespace DataAccess
         where TModel : class 
         where TKey : class
     {
-        IEnumerable<TModel> GetAll();
+        IEnumerable<TModel> GetAll(ParametersBase parameters = null);
         TModel Get(TKey id);
         void Create(TModel item);
         void Update(TModel item);

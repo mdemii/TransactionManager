@@ -1,5 +1,6 @@
 ﻿using Business.Interfaces;
 using DataAccess.Models;
+using DataAccess.Parameters;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,12 +12,13 @@ namespace Business.Managers
         public TransactionManager()
         {
 
-
-
         }
 
-        public Task<IEnumerable<TransactionModel>> GetAllAsync()
+        public Task<IEnumerable<TransactionModel>> GetAllAsync(ParametersBase parameters)
         {
+
+            var transactionParameters = parameters as TransactionParameters;
+
             //TODO creaste stub repository and redirecto call there
             var statusList = new List<TransactionModel>()
             {

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Business.Interfaces;
+using DataAccess.Parameters;
 using Microsoft.AspNetCore.Mvc;
 using Service.DataTransferObjects;
 using System.Collections.Generic;
@@ -21,9 +22,9 @@ namespace TransactionWebApi.Controllers
         }
 
         [HttpGet()]
-        public async Task<IActionResult> GetTransactions()
+        public async Task<IActionResult> GetTransactions([FromQuery]TransactionParameters parameters)
         {
-            var businessTransactions = await m_transactionManager.GetAllAsync();
+            var businessTransactions = await m_transactionManager.GetAllAsync(parameters);
             var dtoTransactions = m_mapper.Map<IEnumerable<TransactionDto>>(businessTransactions);
             return Ok(dtoTransactions);
         }
