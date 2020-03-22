@@ -23,32 +23,58 @@ namespace DataAccess.EFCore.DbContexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            Configure_Currencies_Table(modelBuilder);
+            var currencyEntityList = CultureInfo.GetCultures(CultureTypes.SpecificCultures)
+                                                .Select(ci => ci.LCID).Distinct()
+                                                .Select(id => new RegionInfo(id))
+                                                .GroupBy(r => r.ISOCurrencySymbol)
+                                                .Select(g => g.First())
+                                                .Select((regionInfo, index) =>
+                                                    new CurrencyEntity
+                                                    {
+                                                        Id = (sbyte)(index + 1),
+                                                        Name = regionInfo.EnglishName,
+                                                        Code = regionInfo.ISOCurrencySymbol,
+                                                        Symbol = regionInfo.CurrencySymbol
+                                                    })
+                                                .ToList();
 
-            Configure_TransactionStatuses_Table(modelBuilder);
 
-            Configure_Transactions_Table(modelBuilder);
+            var statuses = new List<TransactionStatusEntity>
+            {
+                        new TransactionStatusEntity
+                        {
+                            Id = 1,
+                            Name = "Approved",
+                            ShortName = "A",
+                        },
+
+                        new TransactionStatusEntity
+                        {
+                            Id = 2,
+                            Name = "Rejected",
+                            ShortName = "R",
+                        },
+
+                        new TransactionStatusEntity
+                        {
+                            Id = 3,
+                            Name = "Done",
+                            ShortName = "D",
+                        }
+            };
+
+
+            Configure_Currencies_Table(modelBuilder, currencyEntityList);
+
+            Configure_TransactionStatuses_Table(modelBuilder, statuses);
+
+            Configure_Transactions_Table(modelBuilder, currencyEntityList, statuses);
 
             base.OnModelCreating(modelBuilder);
         }
 
-        private void Configure_Currencies_Table(ModelBuilder modelBuilder)
+        private void Configure_Currencies_Table(ModelBuilder modelBuilder, List<CurrencyEntity> currencyEntityList)
         {
-            var currencyEntityList = CultureInfo.GetCultures(CultureTypes.SpecificCultures)
-                .Select(ci => ci.LCID).Distinct()
-                .Select(id => new RegionInfo(id))
-                .GroupBy(r => r.ISOCurrencySymbol)
-                .Select(g => g.First())
-                .Select((regionInfo, index) =>
-                    new CurrencyEntity
-                    {
-                        Id = (sbyte)(index + 1),
-                        Name = regionInfo.EnglishName,
-                        Code = regionInfo.ISOCurrencySymbol,
-                        Symbol = regionInfo.CurrencySymbol
-                    })
-                .ToList();
-
             modelBuilder.Entity<CurrencyEntity>(entity =>
             {
                 entity.ToTable("Currencies");
@@ -75,7 +101,7 @@ namespace DataAccess.EFCore.DbContexts
             });
         }
 
-        private void Configure_TransactionStatuses_Table(ModelBuilder modelBuilder)
+        private void Configure_TransactionStatuses_Table(ModelBuilder modelBuilder, List<TransactionStatusEntity> statuses)
         {
             modelBuilder.Entity<TransactionStatusEntity>(entity =>
             {
@@ -94,33 +120,11 @@ namespace DataAccess.EFCore.DbContexts
                     .IsRequired()
                     .HasMaxLength(5);
 
-                entity.HasData(
-
-                        new TransactionStatusEntity
-                        {
-                            Id = 1,
-                            Name = "Approved",
-                            ShortName = "A",
-                        },
-
-                        new TransactionStatusEntity
-                        {
-                            Id = 2,
-                            Name = "Rejected",
-                            ShortName = "R",
-                        },
-
-                        new TransactionStatusEntity
-                        {
-                            Id = 3,
-                            Name = "Done",
-                            ShortName = "D",
-                        }
-                    );
+                entity.HasData(statuses);
             });
         }
 
-        private void Configure_Transactions_Table(ModelBuilder modelBuilder)
+        private void Configure_Transactions_Table(ModelBuilder modelBuilder, List<CurrencyEntity> currencyEntityList, List<TransactionStatusEntity> statuses)
         {
             modelBuilder.Entity<TransactionEntity>(entity =>
             {
@@ -135,6 +139,9 @@ namespace DataAccess.EFCore.DbContexts
                 entity.Property(e => e.Amount)
                     .IsRequired();
 
+                entity.Property(e => e.TransactionDate)
+                    .IsRequired();
+
                 entity.HasOne(e => e.Currency)
                       .WithMany()
                       .HasForeignKey(e => e.CurrencyId)
@@ -145,7 +152,23 @@ namespace DataAccess.EFCore.DbContexts
                       .HasForeignKey(e => e.CurrencyId)
                       .HasConstraintName("FK_Transactions_TransactionStatuses");
 
-                //TODO has data
+                var transactionList = new List<TransactionEntity>();
+
+                for(var index = 1; index < 100; index++)
+                {
+                    var transaction = new TransactionEntity
+                    {
+                        Id = $"Invoice000000{index}",
+                        Amount = index * 10,
+                        TransactionDate = new DateTime(2020,index % 12 + 1, index % 20 + 1, index % 12 + 1, 0, 0),
+                        CurrencyId = (sbyte)(index % 10),
+                        TransactionStatusId = (sbyte)(index % 3 + 1),
+                    };
+
+                    transactionList.Add(transaction);
+                }
+
+                entity.HasData(transactionList);
 
             });
         }

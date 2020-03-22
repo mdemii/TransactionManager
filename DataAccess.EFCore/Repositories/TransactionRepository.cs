@@ -1,111 +1,68 @@
 ﻿using AutoMapper;
+using DataAccess.EFCore.DbContexts;
 using DataAccess.Models;
 using DataAccess.Parameters;
 using DataAccess.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DataAccess.EFCore.Repositories
 {
     public class TransactionRepository : ITransactionRepository
     {
+        private TransactionDbContext m_dbContext;
         private readonly IMapper m_mapper;
 
-        public TransactionRepository(IMapper mapper)
+        public TransactionRepository(TransactionDbContext dbContext, IMapper mapper)
         {
             m_mapper = mapper;
+            m_dbContext = dbContext;
         }
 
         public Task<IEnumerable<TransactionModel>> GetAllAsync(ParametersBase parameters = null)
         {
+            var transactionEntities = m_dbContext.Transactions
+                                                    .Include(t=>t.Currency)
+                                                    .Include(t=>t.TransactionStatus)
+                                                    .AsQueryable();
+
+            if (parameters != null)
+            {
+                var pageNumber = parameters.PageNumber;
+                var pageSize = parameters.PageSize;
+                var skip = (pageNumber - 1) * pageSize;
+                transactionEntities = transactionEntities.Skip(skip).Take(pageSize);
+            }
+
             var transactionParameters = parameters as TransactionParameters;
 
-            //TODO creaste stub repository and redirecto call there
-            var statusList = new List<TransactionModel>()
+            if (transactionParameters != null)
             {
-                new TransactionModel
+                if (!string.IsNullOrEmpty(transactionParameters.Currency))
                 {
-                    Id="Invoice0000001",
-                    Amount=1000.00m,
-                    Currency = new CurrencyModel
-                    {
-                        Id = 1,
-                        Code = "USD",
-                        Name = "United States Dollar",
-                        Symbol = "$",
-                    },
-                    TransactionDate = Convert.ToDateTime("20/02/2019 12:33:16"),
-                    Status = new TransactionStatusModel
-                    {
-                        Id = 1,
-                        Name = "Approved",
-                        ShortName = "A",
-                    },
-                },
+                    transactionEntities = transactionEntities.Where(t => t.Currency.Code.ToLower().Equals(transactionParameters.Currency.Trim().ToLower()));
+                }
 
-                new TransactionModel
+                if (!string.IsNullOrEmpty(transactionParameters.Status))
                 {
-                    Id="Invoice0000002",
-                    Amount=300.00m,
-                    Currency = new CurrencyModel
-                    {
-                        Id = 1,
-                        Code = "USD",
-                        Name = "United States Dollar",
-                        Symbol = "$",
-                    },
-                    TransactionDate = Convert.ToDateTime("21/02/2019 12:33:16"),
-                    Status = new TransactionStatusModel
-                    {
-                        Id = 3,
-                        Name = "Done",
-                        ShortName = "D",
-                    },
-                },
+                    transactionEntities = transactionEntities.Where(t => t.TransactionStatus.ShortName.ToLower().Equals(transactionParameters.Status.Trim().ToLower()));
+                }
 
-                new TransactionModel
+                if (transactionParameters.StartDate.HasValue &&
+                    transactionParameters.EndDate.HasValue)
                 {
-                    Id="Invoice0000003",
-                    Amount=700.00m,
-                    Currency = new CurrencyModel
-                    {
-                        Id = 1,
-                        Code = "USD",
-                        Name = "United States Dollar",
-                        Symbol = "$",
-                    },
-                    TransactionDate = Convert.ToDateTime("22/02/2019 12:33:16"),
-                    Status = new TransactionStatusModel
-                    {
-                        Id = 2,
-                        Name = "Rejected",
-                        ShortName = "R",
-                    },
-                },
+                    transactionEntities = transactionEntities.Where(t => t.TransactionDate >= transactionParameters.StartDate &&
+                                                                         t.TransactionDate <= transactionParameters.EndDate);
+                }
 
-                new TransactionModel
-                {
-                    Id="Invoice0000004",
-                    Amount=900.00m,
-                    Currency = new CurrencyModel
-                    {
-                        Id = 1,
-                        Code = "USD",
-                        Name = "United States Dollar",
-                        Symbol = "$",
-                    },
-                    TransactionDate = Convert.ToDateTime("23/02/2019 12:33:16"),
-                    Status = new TransactionStatusModel
-                    {
-                        Id = 1,
-                        Name = "Approved",
-                        ShortName = "A",
-                    },
-                },
-            };
+            }
 
-            return Task<IEnumerable<TransactionModel>>.Factory.StartNew(() => statusList);
+
+            var transactionModels = m_mapper.Map<IEnumerable<TransactionModel>>(transactionEntities);
+            return Task<IEnumerable<TransactionModel>>.Factory.StartNew(() => transactionModels);
         }
 
         public TransactionModel Get(string id)

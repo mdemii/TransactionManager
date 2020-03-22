@@ -20,5 +20,7 @@ namespace DataAccess.EFCore.Entities
         public TransactionStatusEntity TransactionStatus { get; set; }
 
         public decimal Amount { get; set; }
+
+        public DateTime TransactionDate { get; set; }
     }
 }
