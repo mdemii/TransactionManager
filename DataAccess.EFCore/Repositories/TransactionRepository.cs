@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 using DataAccess.Models;
 using DataAccess.Parameters;
+using DataAccess.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DataAccess.EFCore
+namespace DataAccess.EFCore.Repositories
 {
     public class TransactionRepository : ITransactionRepository
     {

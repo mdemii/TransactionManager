@@ -1,9 +1,9 @@
 using AutoMapper;
 using Business.Interfaces;
 using Business.Managers;
-using DataAccess;
-using DataAccess.EFCore;
 using DataAccess.EFCore.DbContexts;
+using DataAccess.EFCore.Repositories;
+using DataAccess.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -34,6 +34,7 @@ namespace TransactionWebApi
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+            services.AddScoped<ITransactionStatusRepository, TransactionStatusRepository>();
             services.AddScoped<ITransactionRepository, TransactionRepository>();
 
             services.AddScoped<ITransactionStatusManager, TransactionStatusManager>();

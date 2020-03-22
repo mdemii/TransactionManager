@@ -6,7 +6,6 @@ namespace DataAccess
 {
     public interface IRepository<TModel, TKey> 
         where TModel : class 
-        where TKey : class
     {
         Task<IEnumerable<TModel>> GetAllAsync(ParametersBase parameters = null);
         TModel Get(TKey id);
